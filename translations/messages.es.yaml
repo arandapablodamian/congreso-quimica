@@ -1,0 +1,95 @@
+ID: Nro
+Congreso: Congreso
+Evento: Evento
+Titulo: Título
+Hora: Hora
+Disertante: Disertante
+Ubicacion: Ubicación
+Activo: Activo
+Active: Activo
+Cupo: Cupo
+Email: Correo
+conectado como: 'Usuario:'
+Plain password: Contraseña
+Agree terms: Aceptar Términos
+Username: Apellido y nombre
+User: Usuario
+Users: Usuarios
+UserQr: Usuarios QR
+Descripcion qr: QR
+usuario_registrado: Usted se encuentra registrado.
+Dni: Nro de documento
+EventoTipo: Tipo de evento
+Evento tipos: Tipos de evento
+Evento tipo: Tipo
+Inscripcion: Inscripción
+InscripcionQr: Inscripción QR
+Asistio qr: Asistió
+Asociacion: Asociación
+Descripcion: Descripción
+Imagen: Imagen
+Apellido: Apellido
+Nombre: Nombre
+Cupo utilizado: Cupo utilizado
+Fecha inicio: Fecha inicio
+Fecha fin: Fecha fin
+eventoTipo:
+  fechaInicio: Fecha inscripción inicio
+  fechaFin: Fecha inscripción fin
+user:
+  active: Habilitar
+Log in: Iniciar sesión
+You are logged in as: Has iniciado sesión como
+Please sign up: Por favor regístrese
+Sign up: Regístrese
+Password: Contraseña
+Enter: Ingresar
+Telefono: Teléfono
+Pais: País
+Grupo sanguineo: Grupo sanguíneo
+Alergias: Alergias
+Mano habil: Mano hábil
+Obra social: Obra social
+Zurdo: Zurdo
+Diestro: Diestro
+Restriccion alimentaria: Restricción alimentaria
+Carreras: Carreras
+login_required: Necesita iniciar sesión para para inscribirse
+inscripcion_inscripto: Se ha inscripto satisfactoriamente!
+Image: Imagen
+inscribirse: Inscribirse
+inscripcion_formulario_titulo: 'Inscribirse a:'
+inscripcion_formulario_subtitulo: Debe Confirmar su Inscripción
+confirmar_inscripcion: Confirmar Inscripción
+cancelar_inscripcion: Cancelar
+Anio cursado: Año de cursado
+Enfermedades cronicas: Enfermedad crónica
+Cual: ¿Cuál?
+mis_inscripciones: Mis Inscripciones
+Estado: Estado
+Realiza visitas: ¿Realiza visitas?
+Categoria: Categoría
+Categorias: Categorías
+Discapacidad: Discapacidad
+Discapacidad descripcion: Discapacidad descripción
+Si: Si
+No: No
+visualizacion: Visualización
+ubicacionMap: Ubicación
+Ubicacion map: Ubicación
+plainPasswordHelp: Para manetener la contraseña deje este campo en blanco
+Usuarios excel: Exportar en excel
+Inscripciones excel: Exportar en excel
+Inscripto: Inscripto
+Asistio: Asistio
+Ausente: Ausente
+Image file: Imagen
+¿Eliminar?: ¿Eliminar?
+Orden: Orden
+Visualizacion: Visualización
+Informacion: Información
+Hora inicio: Hora inicio
+Hora fin: Hora fin
+Direccion: Dirección
+informacion_personal: Información personal
+Es visita: Es visita

@@ -1,0 +1,260 @@
+{# {% set congresos = app.session.get('congresos')  %} #}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{% block title %}AArEIQ – Asociación Argentina de Estudiantes de Ingeniería Química{% endblock %}</title>
+
+        <link href="/favicon.ico" rel="icon">
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147486776-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-147486776-1');
+        </script>
+
+        {% block stylesheets %}
+            <!--Plugins css-->
+            <link rel="stylesheet" href="{{ asset('css/plugins.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+            <style>
+                #particles-js{ position:absolute; width: 100%; height: 100%; background-color: red; background-image: url("{{asset('images/home_image2.jpg')}}"); background-repeat: no-repeat; background-size: cover; background-position: 50% 50%; } ---- stats.js ---- .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
+                .degradado{
+                    background: linear-gradient(270deg,#29d7ff 0%,#401fa5 100%);
+                }
+
+                .congreso-section {
+                    background-image: url("{{asset('images/chemical-icon.jpg')}}");
+                    min-height: 500px;
+                    background-attachment: fixed;
+                    background-position: center;
+                    background-repeat: repeat;
+                    background-size: cover;
+                    
+                }
+                .media-section{
+                    background-image: url("{{asset('images/chemical-icon.jpg')}}");
+                    background-attachment: fixed;
+                    background-position: center;
+                    background-repeat: repeat;
+                    background-size: cover;
+                }
+            </style>
+        {% endblock %}
+    </head>
+
+    <body data-spy="scroll" data-target=".navbar" data-offset="90">
+
+    {% block header %}
+        <!--PreLoader-->
+        
+        <header class="site-header">
+            <nav class="navbar navbar-expand-lg fixed-bottom degradado">
+                <div class="container">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.svg" style="height: 61px;" /> </a>
+                    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#xenav">
+                        <span> </span>
+                        <span> </span>
+                        <span> </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="xenav">
+                        <ul class="navbar-nav ml-auto">
+                        {% block menuItems %}
+                            {% if congresos is defined and congresos %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{path('app_index')}}#congresoDesc">Congreso</a>
+                                </li>
+                                {% for eventoTipo in eventoTipos if not eventoTipo.esImagen %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_index') }}#eventoTipo_{{ eventoTipo.id }}">{{ eventoTipo.nombre }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endblock menuItems %}
+
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_eventos_inscripto') }}" class="nav-link">{{ 'mis_inscripciones'|trans() }}</a>
+                            </li>
+                            <li class="nav-item" style="color:white;">
+                                {{ 'conectado como'|trans() }} {{ app.user.username }}
+                                <a href="{{ path('app_logout') }}" class="btn btn-danger">{{ 'user.signout'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_register') }}" class="btn btn-secondary">{{ 'Sign up'|trans() }}</a>
+                                <a href="{{ path('app_login') }}" class="btn btn-light">{{ 'login.sign_in'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!--side menu open button-->
+                <a href="javascript:void(0)" class="d-none d-lg-inline-block sidemenu_btn" id="sidemenu_toggle">
+                    <span></span> <span></span> <span></span>
+                </a>
+            </nav>
+
+            <!-- side menu -->
+            <div class="side-menu">
+                <div class="inner-wrapper">
+                    <span class="btn-close" id="btn_sideNavClose"><i></i><i></i></span>
+                    <nav class="side-nav">
+                        <ul class="navbar-nav w-100">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#congresoDesc">Congreso</a> 
+                        </li>
+
+                        {% if congresos is defined and congresos %}
+                            {% for eventoTipo in eventoTipos if not eventoTipo.esImagen %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#eventoTipo_{{eventoTipo.id}}">{{eventoTipo.nombre}}</a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_eventos_inscripto') }}" class="nav-link">{{ 'mis_inscripciones'|trans() }}</a>
+                            </li>
+                            <li class="nav-item" style="color:white;">
+                                {{ 'conectado como'|trans() }} {{ app.user.username }}
+                                <a href="{{ path('app_logout') }}" class="btn btn-danger">{{ 'user.signout'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_register') }}" class="btn btn-secondary">{{ 'Sign up'|trans() }}</a>
+                                <a href="{{ path('app_login') }}" class="btn btn-light">{{ 'login.sign_in'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+
+                    <ul class="social-icons-simple white top50 w-100">
+                    <li><a href="https://www.facebook.com/AArEIQarg" target="_blank"><i class="fa fa-facebook"></i> </a> </li>
+                    <li><a href="https://www.instagram.com/aareiq/" target="_blank"><i class="fa fa-instagram"></i> </a> </li>
+                    <li><a href="https://www.linkedin.com/company/aareiq/" target="_blank"><i class="fa fa-linkedin"></i> </a> </li>
+                    <li><a href="https://www.youtube.com/channel/UCQsv8oEdtmGlfsXZ2sdDcxw/featured" target="_blank"><i class="fa fa-youtube"></i> </a> </li>
+                    </ul>
+                </div>
+            </div>
+            <a id="close_side_menu" href="javascript:void(0);"></a>
+            <!-- End side menu -->
+        </header>
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+    {% block socialMedia %}
+        <section class="media-section">
+            <div class="social-content">
+                <div class="row mx-auto tc">
+                    <div class="col-3">
+                        <a href="https://www.facebook.com/AArEIQarg" target="_blank">
+                            <img class="social-links hvr-grow mx-auto" src="{{asset('images/facebook-logo.svg')}}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <a href="https://www.instagram.com/aareiq/" target="_blank">
+                            <img class="social-links hvr-grow mx-auto" src="{{asset('images/instagram-logo.png')}}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-3">
+                         <a href="https://www.linkedin.com/company/aareiq/" target="_blank">
+                            <img class="social-links hvr-grow mx-auto" src="{{asset('images/linkedin-logo.svg')}}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <a href="https://www.youtube.com/channel/UCQsv8oEdtmGlfsXZ2sdDcxw/featured" target="_blank">
+                            <img class="social-links hvr-grow mx-auto"src="{{asset('images/youtube-logo.png')}}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block footer %}
+        <section id="funfacts" class=" fact-iconic footer-content">
+            <div class="row mx-auto">
+                <div class="col-4">
+                    <div class="footer-element">
+                        {% if congresos is defined and congresos %}
+                            <h5 class="whitecolor bottom25 ">{{ congresos.titulo }}</h5>
+                            <div class="row mx-auto">
+                                <div class="col-md-2 col-xs-2"></div>
+                                <div class="col-md-4 col-xs-12 ">
+                                    <div class="lblue">Inicio:</div>   
+                                    {{congresos.fechaInicio|date('d/m/Y')}}
+                                </div> 
+                                <div class="col-md-4 col-xs-12 ">
+                                    <div class="lblue">Cierre:</div>
+                                    {{congresos.fechaFin|date('d/m/Y')}}
+                                </div>
+                                <div class="col-md-2 col-xs-2"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="footer-element">
+                        <div class="row mx-auto">
+                            <div class="col-7" style="text-align:right;">
+                                <a href="https://aareiq.org/" target="_blank" class="hvr-grow mx-auto">
+                                    <img src="/images/logo.svg" style="height: 61px;" />
+                                    AArEIQ
+                                </a>
+                            </div>
+                            <div class="col-5" style="text-align: center;">
+                                <a href="https://www.facebook.com/AArEIQarg" target="_blank">
+                                    <img class="miconfo" src="{{asset('images/facebook-logo.svg')}}" alt="">
+                                </a>
+                                <br>
+                                <a href="https://www.instagram.com/aareiq/" target="_blank">
+                                    <img class="miconfo" src="{{asset('images/instagram-logo.png')}}" alt="">
+                                </a>
+                                <br>
+                                <a href="https://www.linkedin.com/company/aareiq/" target="_blank">
+                                    <img class="miconfo" src="{{asset('images/linkedin-logo.svg')}}" alt="">
+                                </a>
+                                <br>
+                                <a href="https://www.youtube.com/channel/UCQsv8oEdtmGlfsXZ2sdDcxw/featured" target="_blank">
+                                    <img class="miconfo"src="{{asset('images/youtube-logo.png')}}" alt="">
+                                </a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 whitecolor ">
+                    <div class="tecs-fd">
+                        <a href="https://tecspro.com.ar" target="_blank" class="hvr-grow mx-auto">
+                            <img src="{{asset('images/tecspro.png')}}" class="footer-tecs" alt="">
+                            <p class="title">Desarrollado por Tecspro</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="super-footer">
+                © 2019 Todos los derechos reservados 
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
+        <script src="{{asset('js/popper.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('js/functions.js')}}"></script>
+    {% endblock %}
+</body>
+</html>

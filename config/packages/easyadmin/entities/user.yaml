@@ -1,0 +1,58 @@
+easy_admin:
+  entities:
+    User:
+      class: App\Entity\User
+      controller: App\Controller\UserController
+      templates:
+        list: 'easy_admin/usuario/list.html.twig'
+      list:
+        batch_actions: ['usuariosExcel']
+        max_results: 100
+        filters:
+        - property: 'active'
+        - property: 'nombre'
+        - property: 'email'
+        - property: 'dni'
+        - property: 'obraSocial'
+        - property: 'grupoSanguineo'
+        - property: 'restriccionAlimentaria'
+        - property: 'alergias'
+        - property: 'discapacidad'
+        - property: 'enfermedadesCronicas'
+        fields:
+          - id
+          - { property: 'active', type: 'boolean' }
+          - apellido
+          - nombre
+          - email
+          - dni
+      form:
+        fields:
+          - { property: 'active', label: 'user.active' }
+          - { property: 'apellido' }
+          - { property: 'nombre' }
+          - { property: 'email', type: 'email' }
+          - { property: 'dni' }
+          - { property: 'telefono' }
+          - { property: 'pais' }
+          - { property: 'manoHabil', type: 'choice', type_options: { choices: '%manoLibre%' } }
+          - { property: 'obraSocial' }
+          - { property: 'grupoSanguineo' }
+          - { property: 'restriccionAlimentaria' }
+          - { property: 'alergias' }
+          - { property: 'carreras' }
+          - { property: 'anioCursado' }
+          - { property: 'asociacion' }
+          - { property: 'plainPassword', help: 'plainPasswordHelp', type: 'text', type_options: { mapped: false, required: false } }
+          - { property: 'discapacidad', type: 'choice', type_options: { choices: '%tienDiscapacidad%' } }
+          - { property: 'discapacidadDescripcion' }
+          - { property: 'enfermedadesCronicas' }
+          -
+            property: 'categoria'
+            type: 'entity'
+            type_options:
+              class: 'App\Entity\Categoria'
+              required: true
+              multiple: false
+              query_builder: 'App\Repository\CategoriaRepository::finByActivoTrue'
+          - { property: 'realizaVisitas' }

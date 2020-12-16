@@ -1,0 +1,30 @@
+easy_admin:
+  entities:
+    Inscripcion:
+      class: App\Entity\Inscripcion
+      controller: App\Controller\InscripcionController
+      templates:
+        list: 'easy_admin/inscripcion/list.html.twig'
+      list:
+        batch_actions: ['inscripcionesExcel']
+        filters:
+          - property: 'user'
+          - property: 'evento'
+          - property: 'estado'
+        fields:
+          - id
+          - { property: 'user', type: string }
+          - { property: 'evento', type: string }
+          - { property: 'estado', template: 'easy_admin/estadoInscripcion.html.twig'}
+      form:
+        fields:
+          -
+            property: 'estado'
+            type: 'choice'
+            type_options:
+              choices: '%estadoInscripcion%'
+      show:
+        fields:
+          - { property: 'user' }
+          - { property: 'evento' }
+          - { property: 'estado', template: 'easy_admin/estadoInscripcion.html.twig'}

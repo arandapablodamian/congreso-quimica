@@ -1,0 +1,329 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% set isAuthenticated = true %}
+   {% else %}
+      {% set isAuthenticated = false %}
+   {% endif %}
+   {% for key, message in app.flashes %}
+      <div class="alert alert-{{key}}">
+         {% for m in message %}
+            {{ m|trans() }}
+         {% endfor %}
+      </div>
+   {% endfor %}
+   {# seccion de la imagen superior del index #}
+   <section class="full-screen parallaxie center-block bg-video-container" id="ourhome"  >
+      <div id="particles-js"></div>
+      <div class="center-item text-center video-content">
+         <img src="/images/logo.svg" class="logo-index" />
+         <h2 class="text-capitalize top50 bottom35 whitecolor">
+            <span class="block fontbold wow fadeIn" data-wow-delay="500ms" style="visibility: visible; animation-delay: 500ms; animation-name: fadeIn;">Asociación Argentina de Estudiantes de Ingeniería Química</span>
+         </h2>
+      </div>
+   </section>
+
+   {% block contenidoPagina %}
+      {% if congresos %}
+
+         {# Muestro info del congresos  #}
+         <section id="congresoDesc" class="congreso-section">
+            <div style="background-color: rgba(117, 190, 218, 0.5);padding-top:60px; !important;padding-bottom:60px; !important">
+               <div class="row mx-auto" >
+                     <div class="col-md-6 col-sm-6" style="text-align:center;">
+                        <img
+                           class="img-fluid con-image hvr-bounce-in img-zoomable"
+                           src="{{ asset('uploads/images/congreso/' ~ congresos.image) | imagine_filter('img515') }}"
+                           data-original="{{ asset('uploads/images/congreso/' ~ congresos.image) }}"
+                           alt="{{ congresos.titulo }}"
+                        >
+                     </div>
+                     <div class="col-md-6 col-sm-6 congreso-des">
+                        <div class="card card-con">
+                           <div class="card-body">
+                              <h2 class="lblue bottom25 " >{{congresos.titulo}}</h2>
+                              <p class="card-text">
+                                 <p  >{{congresos.descripcion|raw}} </p>
+                              </p>
+                              <div class="row mx-auto tl">
+                                 {% if congresos.direccion %}
+                                    <div class="col-md-6 col-xs-12">
+                                       <div class="lblue date-con">Dirección: </div>{{congresos.direccion}}
+                                    </div>
+                                 {% endif %}
+                                 {% if congresos.ciudad %}
+                                    <div class="col-md-6 col-xs-12">
+                                       <div class="lblue date-con">Ciudad: </div> {{congresos.ciudad}}
+                                    </div>
+                                 {% endif %}
+                                 {% if congresos.provincia %}
+                                    <div class="col-md-6 col-xs-12">
+                                       <div class="lblue date-con"> Provincia:</div> {{congresos.provincia}}
+                                    </div>
+                                 {% endif %}
+                                 {% if congresos.pais %}
+                                    <div class="col-md-6 col-xs-12">
+                                       <div class="lblue date-con">País:</div> {{congresos.pais}}
+                                    </div>
+                                 {% endif %}
+                              </div>
+                              <div class="row mx-auto tl">
+                                 <div class="col-6 ">
+                                    <div class="lblue date-con"> Inicio:</div>
+                                    {{congresos.fechaInicio|date('d/m/Y')}}
+                                    {% if congresos.horaInicio %}
+                                       {{congresos.horaInicio|date('H:i')}} h.
+                                    {% endif %}
+                                 </div>
+                                 <div class="col-6">
+                                    <div class="lblue date-con"> Cierre: </div>
+                                    {{congresos.fechaFin|date('d/m/Y')}}
+                                    {% if congresos.horaFin %}
+                                       {{congresos.horaFin|date('H:i')}} h.
+                                    {% endif %}
+                                 </div>
+                              </div>
+                              <br>
+                              {% if congresos.ubicacionMap %}
+                                 <button class="btn btn-success purple" onclick="congresoMap()" label="Ver ubicación" >
+                                    Ver ubicación
+                                 </button>
+                              {% endif %}
+                           </div>
+                        </div>
+                     </div>
+               </div>
+            </div>
+         </section>
+
+         <div class="modal" id="modal-eventoRequisitos" tabindex="-1" role="dialog">
+            <div class="modal-dialog " role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title"><i class="fa fa-paste"></i>Requisitos</h5>
+                     <button type="button" class="close purple" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body modalback">
+                    
+                     <div id="descripcion-requisitos" style="padding:10px;">
+                        
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-success purple" data-dismiss="modal">Cerrar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         {# modal de la ubicacion #}
+         <div class="modal" id="modal-congreso" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title"><i class="fa fa-map-marker"></i>Ubicación</h5>
+                     <button type="button" class="close purple" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body modalback">
+                        <h2 class="whitecolor bottom25" style="text-align: center;" >
+                           {{congresos.titulo}}</h2>
+                        <p class="card-text" style="text-align: center;">
+                           <p>{{congresos.descripcion|raw}} </p>
+                        </p>
+                        <div class="row mx-auto tl">
+                           {% if congresos.direccion %}
+                              <div class="col-md-6 col-xs-12">
+                                    <div class="lblue date-con">Dirección: </div>{{congresos.direccion}}
+                              </div>
+                           {% endif %}
+                           {% if congresos.ciudad %}
+                              <div class="col-md-6 col-xs-12">
+                                 <div class="lblue date-con">Ciudad: </div> {{congresos.ciudad}}
+                              </div>
+                           {% endif %}
+                           {% if congresos.provincia %}
+                              <div class="col-md-6 col-xs-12">
+                                 <div class="lblue date-con" > Provincia:</div> {{congresos.provincia}}
+                              </div>
+                           {% endif %}
+                           {% if congresos.pais %}
+                              <div class="col-md-6 col-xs-12">
+                                 <div class="lblue date-con">País:</div> {{congresos.pais}}
+                              </div>
+                           {% endif %}
+                        </div>
+                        <br><br>
+                        <hr>
+                        <div id="congresoMap" class="mapa-modal">
+                           <iframe src="{{congresos.ubicacionMap}}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                        </div>
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-success purple" data-dismiss="modal">Cerrar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="degradado" style="text-align:center;">
+            <br><br>
+            {% set contador_eventosTipo = 0 %}
+            {% for eventoTipo in eventoTipos %}
+               {% set contador_eventosTipo = contador_eventosTipo + 1 %}
+                  <section id="eventoTipo_{{ eventoTipo.id }}" >
+                     <div class="card card-con" style="margin-left: auto; margin-right:auto;">
+                        <div class="card-body">
+                           <div class="row mx-auto">
+                              {% if eventoTipo.esImagen %}
+                                 <div class="col-12" style="text-align:center;">
+                                    <img
+                                       class="img-fluid con-image con-image img-zoomable"
+                                       src="{{ asset('uploads/images/evento/' ~ eventoTipo.image) | imagine_filter('img1040') }}"
+                                       data-original="{{ asset('uploads/images/evento/' ~ eventoTipo.image) }}"
+                                       style="max-width:100%;"
+                                       alt="{{ eventoTipo.nombre }}"
+                                    >
+                                 </div>
+                              {% else %}
+                                 <div class="col-md-6 col-sm-6 {{ contador_eventosTipo is divisible by(2) ? 'order-last' : 'order-first' }} " style="text-align:center;">
+                                    <img
+                                       class="img-fluid con-image con-image img-zoomable"
+                                       src="{{ asset('uploads/images/evento/' ~ eventoTipo.image) | imagine_filter('img480') }}"
+                                       data-original="{{ asset('uploads/images/evento/' ~ eventoTipo.image) }}"
+                                       style="max-width:100%;"
+                                       alt="{{ eventoTipo.nombre }}"
+                                    >
+                                 </div>
+                                 <div class="col-md-6 col-sm-6 {{ contador_eventosTipo is divisible by(2) ? 'order-first' : 'order-last' }}">
+                                    <h2 class="bottom25 lblue" >{{eventoTipo.nombre}}</h2>
+                                    <p  class="card-text">{{eventoTipo.descripcion|raw}} </p>
+                                    <div class="row mx-auto tc">
+                                       <div class="col-6">
+                                          <div class="lblue date-con "> Inicio Incripción:</div>
+                                          <br>
+                                          {{ eventoTipo.fechaInicio|date('d/m/Y H:i') }} h.
+                                       </div>
+                                       <div class="col-6">
+                                          <div class="lblue date-con"> Cierre Inscripción:</div>
+                                          <br>
+                                          {{ eventoTipo.fechaFin|date('d/m/Y H:i') }} h.
+                                       </div>
+                                    </div>
+                                 </div>
+                              {% endif %}
+                           </div>
+                           <br>
+                           <hr class="sep-evento">
+                           <div class="evento-container">
+                              <div class="row mx-auto mx-auto-evento" >
+                                 {% for evento in eventoTipo.eventos %}
+                                    {% if evento.activo %}
+                                       {% if eventoTipo.visualizacion == 'columna2' %}
+                                          {% set col_external = 'col-md-6' %}
+                                       {% elseif eventoTipo.visualizacion == 'columna3' %}
+                                          {% set col_external = 'col-md-4' %}
+                                       {% else %}
+                                          {% set row = 'row mx-auto' %}
+                                          {% set col_external = 'col-md-12' %}
+                                          {% set col_inside = 'col-md-6' %}
+                                       {% endif %}
+
+                                       <div class="{{ col_external }} evento-element">
+                                          <div {{ row is defined ? "class='row mx-auto'" : '' }} >
+                                             <div {{ col_inside is defined ? "class="~col_inside : '' }}  >
+                                                {% if evento.image %}
+                                                   <img
+                                                      class="img-fluid con-image img-zoomable"
+                                                      src="{{ asset('uploads/images/evento/' ~ evento.image) | imagine_filter('img330x330') }}"
+                                                      data-original="{{ asset('uploads/images/evento/' ~ evento.image) }}"
+                                                      alt="{{ evento.titulo }}"
+                                                   >
+                                                {% endif %}
+                                             </div>
+                                             <div {{ col_inside is defined ? "class=" ~ col_inside : '' }}>
+                                                <div class="event-title purpletext">{{ evento.titulo }}</div>
+                                                <br>
+                                                {% if evento.descripcion %}
+                                                   <strong class="card-text tl">{{ evento.descripcion|raw }}</strong>
+                                                {% endif %}
+                                                {% if evento.disertante %}
+                                                   <div class="lblue date-con">{{ 'Disertante'|trans() }}:</div> {{ evento.disertante }}
+                                                   <br>
+                                                {% endif %}
+                                                {% if evento.ubicacion %}
+                                                   <div class="lblue date-con">{{ 'Ubicacion'|trans() }}:</div> {{ evento.ubicacion }}
+                                                   <br>
+                                                {% endif %}
+                                                <br>
+                                                {% if evento.requisitos %}
+                                                   <div class="text-center">
+                                                      <button class="btn btn-info" onclick="verRequisitos({{evento.id}})"> Ver Requisitos</button>
+                                                   </div>
+                                                   <br>
+                                                {% endif %}
+                                                {% if isAuthenticated %}
+                                                   {% if evento.estaHabilitado() %}
+                                                      {% if evento.tieneCupo() %}
+                                                         <a class="btn btn-success" href="{{ path('app_inscribirse', { eventoId: evento.id }) }}">{{ 'inscribirse'|trans() }}</a>
+                                                      {% else %}
+                                                         <button class="btn btn-warning">Sin cupos</button>
+                                                      {% endif %}
+                                                   {% endif %}
+                                                {% else %}
+                                                   <a href="{{ path('app_login') }}" class="btn btn-primary">{{ 'login.sign_in'|trans(domain = 'EasyAdminBundle') }}</a>
+                                                {% endif %}
+                                             </div>
+                                          </div>
+                                       </div>
+                                    {% endif %}
+                                 {% endfor %}
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <hr>
+                  </section>
+                  <br><br><br><br>
+            {% endfor %}
+         </div>
+      {% endif %}
+   {% endblock contenidoPagina %}
+{% endblock %}
+   
+{% block javascripts %}
+   {{ parent() }}
+
+   <script>
+      function congresoMap(){
+         $('#modal-congreso').modal('show')
+      }
+
+      function verRequisitos(id){
+         
+         path="{{path('requisitosEvento', {'id':'idEvento'})}}"
+         path=path.replace('idEvento', id)
+         $.ajax({
+            url: path,
+            })
+            .done(function( data ) {
+               $('#descripcion-requisitos').html(data)
+               $('#modal-eventoRequisitos').modal('show')
+            });
+      }
+      </script>   
+      <script src="{{ asset('js/zooming.min.js') }}"></script>
+
+      <script>
+      // Listen to images after DOM content is fully loaded
+      document.addEventListener('DOMContentLoaded', function () {
+         new Zooming({
+            // options...
+         }).listen('.img-zoomable')
+      })
+      </script>
+{% endblock %}

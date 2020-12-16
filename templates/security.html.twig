@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{% block title %}AArEIQ – Asociación Argentina de Estudiantes de Ingeniería Química{% endblock %}</title>
+
+        <link href="/favicon.ico" rel="icon">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/vendor/main.css">
+        {% endblock %}
+
+        <style>
+        #sp-header {
+            background: linear-gradient(270deg,#29d7ff 0%,#401fa5 100%);
+            height: 78px !important;
+        }
+        </style>
+    </head>
+    <body>
+        <nav id="sp-header" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="./"><img src="/images/logo.svg" style="height: 61px;" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs4-navbar-collapse" aria-controls="bs4-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="bs4-navbar-collapse">
+                    <ul class="navbar-nav">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li class="nav-item">
+                                {{ 'conectado como'|trans() }} {{ app.user.username }}
+                                <a href="{{ path('app_logout') }}" class="btn btn-danger">{{ 'user.signout'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('app_register') }}" class="btn btn-secondary">{{ 'Sign up'|trans() }}</a>
+                                <a href="{{ path('app_login') }}" class="btn btn-light">{{ 'login.sign_in'|trans(domain = 'EasyAdminBundle') }}</a>
+                            </li>
+                        {% endif %}
+                        {# <li class="nav-item"><a class="nav-link" href="#">Link</a></li> #}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        <br>
+        <br>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 margin_bottom whitecolor text-md-center text-center wow fadeInLeft" data-wow-delay="300ms">
+                        <img src="{{asset('images/tecspro.png')}}" style="width:10%;" alt=""><p class="title">Desarrollado por <span class="text-muted">&copy; <a href="https://tecspro.com.ar">Tecspro</a></span></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+        {% endblock %}
+    </body>
+</html>

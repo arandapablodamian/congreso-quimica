@@ -1,0 +1,8 @@
+campo_discapacidad_obligatorio: El campo discapacidad es obligatorio.
+campo_categoria_obligatorio: Debe seleccionar una categoría.
+inscripcion_error_usuario_no_visita: No realiza visitas.
+inscripcion_error_evento_usuario_existe: Ya se encuentra inscripto al evento.
+inscripcion_error_tipoevento_usuario: Se encuentra inscripto en un evento de este tipo.
+inscripcion_intente_nuevamente: Intente confirmar la inscripción nuevamente.
+inscripcion_sin_cupo: El curso no tiene cupo disponible.
+evento_deshabilitado: El evento no está habilitado.

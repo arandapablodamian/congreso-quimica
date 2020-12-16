@@ -1,0 +1,31 @@
+easy_admin:
+  site_name: '<img src="/images/logo.svg" style="height: 61px;" />'
+  user:
+    # this method/property must return the string representation of the user
+    # (Symfony will look for getFullName(), isFullName(), ..., and 'fullName' property)
+    name_property_path: 'email'
+
+    # this method/property must return the absolute URL of the user avatar image
+    # (Symfony will look for getGravatar(), isGravatar(), ..., and 'gravatar' property)
+    # avatar_property_path: 'gravatar'
+  # actions globals
+  disabled_actions: ['delete']
+  design:
+    templates:
+      # paginator: 'easy_admin/paginator.html.twig'
+      layout: 'easy_admin/layout.html.twig'
+    assets:
+      js:
+        - '/bundles/cksourceckfinder/ckfinder/ckfinder.js'
+        - '/js/setup-ckfinder.js'
+      css:
+        - '/css/adminCustom.css'
+    menu:
+      - { entity: 'User', label: 'Users', default: true }
+      - 'UserQr'
+      - 'Inscripcion'
+      - 'InscripcionQr'
+      - 'Evento'
+      - 'EventoTipo'
+      - 'Congreso'
+      - 'Asociacion'

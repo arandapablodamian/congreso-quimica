@@ -1,0 +1,38 @@
+easy_admin:
+  entities:
+    Evento:
+      class: App\Entity\Evento
+      list:
+        filters:
+          - property: 'eventoTipo'
+          - property: 'titulo'
+          - property: 'activo'
+          - property: 'cupo'
+          - property: 'cupoUtilizado'
+        fields:
+          - id
+          - eventoTipo
+          - titulo
+          - activo
+          - cupo
+          - cupoUtilizado
+      form:
+        fields:
+          -
+            property: 'eventoTipo'
+            type: 'entity'
+            type_options:
+              class: 'App\Entity\EventoTipo'
+              required: true
+              multiple: false
+              query_builder: 'App\Repository\EventoTipoRepository::finByActivoTrue'
+            css_class: 'col-sm-6'
+          - titulo
+          - { property: 'descripcion', type: 'fos_ckeditor' }
+          - disertante
+          - ubicacion
+          - cupo
+          - cupoUtilizado
+          - activo
+          - { property: 'requisitos', type: 'fos_ckeditor' }
+          - { property: 'imageFile', type: 'vich_image' }

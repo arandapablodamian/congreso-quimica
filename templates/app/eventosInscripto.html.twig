@@ -1,0 +1,71 @@
+{% extends 'app/index.html.twig' %}
+
+{% block contenidoPagina %}
+   <section id="congresoDesc" class="half-section bglight">
+      <div class="container-fluid">
+         <br>
+         <div id="eventoDesc" class="">
+            <div class="row justify-content-md-center">
+               <div class="card mb-3 col-md-6">
+                  <div class="row no-gutters">
+                     <div class="col-md-4">
+                        <img class="card-img" src="{{ qr_code_path(app.user.descripcionQr, { writer: 'svg', size: 200 }) }}" />
+                     </div>
+                     <div class="col-md-8">
+                        <div class="card-body">
+                        <h5 class="card-title">{{ 'informacion_personal'|trans() }}</h5>
+                        <p class="card-text">{{ app.user.nombreCompleto() }}</p>
+                        <p class="card-text"><small class="text-muted">{{ app.user.carreras }}</small></p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row justify-content-md-center">
+               <div class="col-md-6">
+                  <h4>{{ 'mis_inscripciones'|trans() }}</h4>
+                  <hr>
+                  {% for inscripcion in inscripciones %}
+                  <div class="card">
+                     <div class="row no-gutters">
+                        <div class="col-md-4">
+                           {% if inscripcion.evento.image %}
+                              <img
+                                 class="card-img-top"
+                                 src="{{ asset('uploads/images/evento/' ~ inscripcion.evento.image) | imagine_filter('img330x330') }}"
+                                 alt="{{ inscripcion.evento.titulo }}"
+                              >
+                           {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                           <div class="card-body">
+                              <h4 class="card-title">{{ inscripcion.evento.titulo }}</h4>
+                           </div>
+                           <ul class="list-group list-group-flush">
+                              <li class="list-group-item">{{ 'Disertante'|trans() }}: {{ inscripcion.evento.disertante }}</li>
+                              <li class="list-group-item">{{ 'Ubicacion'|trans() }}:  {{ inscripcion.evento.ubicacion }}</li>
+                              <li class="list-group-item">{{ 'Estado'|trans() }}:  {{ inscripcion.getEstadoTexto }}</li>
+                           </ul>
+                           <div class="card-text">
+                              <img class="rounded mx-auto d-block" src="{{ qr_code_path(absolute_url(path('easyadmin', {entity: 'Inscripcion', action: 'actualizarAsistencia', id: inscripcion.id})) , { writer: 'svg', size: 150 }) }}" />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+                  <hr>
+                  <a href="{{path('app_index')}}" class="btn btn-primary">{{ 'volver'|trans() }}</a>
+               </div>
+            </div>
+         </div>
+         <br>
+      </div>
+   </section>
+  
+{% endblock %}
+
+   
+{% block javascripts %}
+   {{parent()}}
+   
+{% endblock %}

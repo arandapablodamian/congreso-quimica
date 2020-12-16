@@ -1,0 +1,7 @@
+easy_admin:
+  entities:
+    Asociacion:
+      class: App\Entity\Asociacion
+      form:
+        fields:
+          - nombre

@@ -1,0 +1,57 @@
+# See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+
+    resolvers:
+        default:
+            web_path: ~
+
+    filter_sets:
+        cache: ~
+        # the name of the "filter set"
+        img330x330:
+            # adjust the image quality to 75%
+            quality: 75
+            # list of transformations to apply (the "filters")
+            filters:
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail: { size: [330, 330], mode: outbound }
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                # background: { size: [124, 94], position: center, color: '#000000' }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 50, progressive: true }
+                optipng: { strip_all: true, level: 3 }
+        img480:
+            filters:
+                relative_resize:
+                    # given 50x40px, output 32x26px using "widen" option
+                    widen: 480
+            post_processors:
+                jpegoptim: { strip_all: true, max: 50, progressive: true }
+                optipng: { strip_all: true, level: 3 }
+        img515:
+            filters:
+                relative_resize:
+                    # given 50x40px, output 32x26px using "widen" option
+                    widen: 515
+            post_processors:
+                jpegoptim: { strip_all: true, max: 50, progressive: true }
+                optipng: { strip_all: true, level: 3 }
+        img1040:
+            filters:
+                relative_resize:
+                    # given 50x40px, output 32x26px using "widen" option
+                    widen: 1040
+            post_processors:
+                jpegoptim: { strip_all: true, max: 50, progressive: true }
+                optipng: { strip_all: true, level: 3 }
+        img660x660:
+            quality: 75
+            filters:
+                thumbnail: { size: [660, 660], mode: outbound }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 50, progressive: true }
+                optipng: { strip_all: true, level: 3 }

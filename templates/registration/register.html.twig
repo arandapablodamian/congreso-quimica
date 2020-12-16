@@ -1,0 +1,125 @@
+{% extends 'security.html.twig' %}
+
+{% block title %}{{ 'Sign up'|trans() }} {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />    <h1 class="h3 mb-3 font-weight-normal">{{ 'Please sign up'|trans() }}</h1>
+
+    {{ form_start(registrationForm) }}
+    {{ form_errors(registrationForm) }}
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.apellido) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.nombre) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.dni) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.telefono) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.email) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.plainPassword) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.pais) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.obraSocial) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.grupoSanguineo) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.alergias) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.manoHabil) }}
+        </div>
+        <div class="col">
+            {{ form_row(registrationForm.restriccionAlimentaria) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(registrationForm.asociacion) }}
+        </div>
+        <div class="col">
+             <div class="row">
+                <div class="col-md-9 col-sm-12">
+                    {{ form_row(registrationForm.carreras) }}
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    {{ form_row(registrationForm.anioCursado) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    {{ form_row(registrationForm.discapacidad) }}
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    {{ form_row(registrationForm.discapacidadDescripcion) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            {{ form_row(registrationForm.enfermedadesCronicas) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            {{ form_row(registrationForm.categoria) }}
+        </div>
+          <div class="col-md-6 col-sm-12">
+            {{ form_row(registrationForm.realizaVisitas) }}
+        </div>
+    </div>
+
+    <button class="btn btn-primary">{{ 'Sign up'|trans() }}</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#registration_form_discapacidad").change();    
+             $('form select[data-widget="select2"]').select2({
+                language: 'es'
+             });
+        })
+
+        $("#registration_form_discapacidad").change(function () {
+            if ($(this).val() === 'Si') {
+                $(this).parent().parent().removeClass().addClass("col-md-3 col-sm-12")
+                $('#registration_form_discapacidadDescripcion').parent().parent().show()
+            } else {
+                $(this).parent().parent().removeClass().addClass("col-12")
+                $('#registration_form_discapacidadDescripcion').parent().parent().hide()
+            }
+        })
+    </script>
+{% endblock %}

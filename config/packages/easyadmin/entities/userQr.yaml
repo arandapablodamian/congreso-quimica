@@ -1,0 +1,25 @@
+easy_admin:
+  entities:
+    UserQr:
+      class: App\Entity\User
+      disabled_actions: ['new', 'edit']
+      list:
+        dql_filter: 'entity.active = true'
+        max_results: 20
+        filters:
+        - property: 'nombre'
+        - property: 'email'
+        - property: 'dni'
+        - property: 'obraSocial'
+        - property: 'grupoSanguineo'
+        - property: 'restriccionAlimentaria'
+        - property: 'alergias'
+        - property: 'discapacidad'
+        - property: 'enfermedadesCronicas'
+        fields:
+          - id
+          - apellido
+          - nombre
+          - email
+          - dni
+          - { property: 'descripcionQr', template: 'easy_admin/usuario/qr.html.twig' }

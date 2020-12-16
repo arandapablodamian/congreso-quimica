@@ -1,0 +1,50 @@
+easy_admin:
+  entities:
+    Congreso:
+      class: App\Entity\Congreso
+      list:
+        filters:
+          - property: 'titulo'
+          - property: 'fechaInicio'
+          - property: 'activo'
+        fields:
+            - id
+            - titulo
+            - fechaInicio
+            - eventoTipos
+            - activo
+      form:
+        fields:
+          - { type: 'group', columns: 6, label: 'Informacion'}
+          - titulo
+          - { property: 'descripcion', type: 'fos_ckeditor' }
+          - { property: 'fechaInicio', type_options: { widget: 'single_text' } }
+          - { property: 'horaInicio', type_options: { widget: 'single_text' } }
+          - { property: 'fechaFin', type_options: { widget: 'single_text' } }
+          - { property: 'horaFin', type_options: { widget: 'single_text' } }
+          - { type: 'group', columns: 6  }
+          - direccion
+          - ciudad
+          - provincia
+          - pais
+          - { property: ubicacionMap, help: 'Link de iframe de google maps'}
+          - activo
+          - { property: 'imageFile', type: 'vich_image' }
+          - { type: 'group', columns: 6 }
+          -
+            property: 'categorias'
+            type: 'collection'
+            type_options:
+                entry_type: App\Form\CategoriaFormType
+                allow_delete: true
+                allow_add: true
+                by_reference: false
+          - { type: 'group', columns: 6 }
+          -
+            property: 'eventoTipos'
+            type: 'collection'
+            type_options:
+                entry_type: App\Form\EventoTipoColType
+                allow_delete: true
+                allow_add: true
+                by_reference: false

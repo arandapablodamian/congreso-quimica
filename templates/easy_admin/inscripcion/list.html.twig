@@ -1,0 +1,8 @@
+{% extends "@EasyAdmin/default/list.html.twig" %}
+
+{% block global_actions %}
+    {{parent()}}
+    <a role="btn" class="btn btn-success" href="{{ path('easyadmin', _request_parameters|merge({ action: 'exportAll' })) }}">
+        Exportar todos
+    </a>
+{% endblock %}

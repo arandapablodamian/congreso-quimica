@@ -1,0 +1,43 @@
+easy_admin:
+  entities:
+    EventoTipo:
+      class: App\Entity\EventoTipo
+      list:
+        filters:
+          - property: 'congreso'
+          - property: 'nombre'
+          - property: 'activo'
+          - property: 'fechaInicio'
+          - property: 'fechaFin'
+        fields:
+          - orden
+          - nombre
+          - congreso
+          - { property: 'fechaInicio', label: 'eventoTipo.fechaInicio' }
+          - { property: 'fechaFin', label: 'eventoTipo.fechaFin' }
+          - activo
+          - { property: 'image', type: 'image', base_path: '%app.path.evento_images%' }
+      form:
+        fields:
+          - orden
+          - nombre
+          - congreso
+          - activo
+          - esVisita
+          - esImagen
+          - { property: 'descripcion', type: 'fos_ckeditor' }
+          - { property: 'imageFile', type: 'vich_image' }
+          - { property: 'fechaInicio', label: 'eventoTipo.fechaInicio' }
+          - { property: 'fechaFin', label: 'eventoTipo.fechaFin' }
+          -
+            property: 'visualizacion'
+            type: 'choice'
+            type_options:
+              choices: '%visualizacion%'
+          # - property: 'eventos'
+          #   type: 'collection'
+          #   type_options:
+          #       entry_type: App\Form\EventoColType
+          #       allow_delete: true
+          #       allow_add: true
+          #       by_reference: false

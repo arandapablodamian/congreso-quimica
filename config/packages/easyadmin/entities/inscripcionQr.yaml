@@ -1,0 +1,18 @@
+easy_admin:
+  entities:
+    InscripcionQr:
+      class: App\Entity\Inscripcion
+      disabled_actions: ['new', 'edit']
+      templates:
+        list: 'easy_admin/inscripcion/list.html.twig'
+      list:
+        filters:
+          - property: 'user'
+          - property: 'evento'
+          - property: 'estado'
+        fields:
+          - id
+          - { property: 'user', type: string }
+          - { property: 'evento', type: string }
+          - { property: 'estado', template: 'easy_admin/estadoInscripcion.html.twig'}
+          - { property: 'asistioQr', template: 'easy_admin/inscripcion/qr.html.twig' }

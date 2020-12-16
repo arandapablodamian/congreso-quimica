@@ -1,0 +1,54 @@
+{% extends 'app/index.html.twig' %}
+
+{% block contenidoPagina %}
+   <section id="congresoDesc" class="half-section bglight">
+      <div class="container-fluid">
+         <br>
+         <div id="eventoDesc" class="row justify-content-md-center">
+            <div class="col-md-6">
+               <div class="card">
+                  <div class="row no-gutters">
+                     <div class="col-md-4">
+                        {% if evento.image %}
+                           <img
+                              class="card-img-top"
+                              src="{{ asset('uploads/images/evento/' ~ evento.image) | imagine_filter('img330x330') }}"
+                              alt="{{ evento.titulo }}"
+                           >
+                        {% endif %}
+                     </div>
+                     <div class="col-md-8">
+                        <div class="card-body">
+                           <h4 class="card-title">{{ 'inscripcion_formulario_titulo'|trans() }} {{ evento.titulo }}</h4>
+                           <strong class="card-subtitle mb-2 text-muted">{{ 'inscripcion_formulario_subtitulo'|trans() }}</strong>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                           <li class="list-group-item">{{ 'Disertante'|trans() }}: {{ evento.disertante }}</li>
+                           <li class="list-group-item">{{ 'Ubicacion'|trans() }}:  {{ evento.ubicacion }}</li>
+                        </ul>
+                        {% if error is not empty %}
+                           <div class="alert alert-danger" role="alert">
+                           {% for flashMessage in error %}
+                              {{ flashMessage.message|trans() }}<br>
+                           {% endfor %}
+                           </div>
+                        {% endif %}
+                        <div class="text-center mt-3">
+                           <div class="row">
+                              <div class="col-8">
+                                 {{ form(form) }}
+                              </div>
+                              <div class="col-4">
+                                 <a href="{{path('app_index')}}" class="btn btn-danger">{{ 'cancelar_inscripcion'|trans() }}</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <br>
+      </div>
+   </section>
+{% endblock %}
